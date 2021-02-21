@@ -1,0 +1,70 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Xilinx/sw_emu",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/xleth",
+            "args": ["0", "Xilinx", "./xleth/xclbin/ethash.sw_emu.xclbin"],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [
+                {"name":"XCL_EMULATION_MODE", "value":"sw_emu"},
+                {"name":"XILINX_VITIS", "value":"/tools/Xilinx/Vitis/2020.2"}
+            ],
+            "console": "externalTerminal",
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
+            "name": "Xilinx/hw",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/xleth",
+            "args": ["0", "Xilinx", "./xleth/xclbin/ethash.hw.xclbin"],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [
+                {"name":"XILINX_VITIS", "value":"/tools/Xilinx/Vitis/2020.2"}
+            ],
+            "console": "externalTerminal",
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
+            "name": "AMD",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/xleth",
+            "args": ["0", "AMD", "./xleth/kernel/ethash.cl"],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "console": "externalTerminal",
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        }
+    ]
+}
