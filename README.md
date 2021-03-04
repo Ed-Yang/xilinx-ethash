@@ -50,9 +50,27 @@ This project is created for testing the Ethminer's ethash opencl kernel on Xilin
 
     ```
 
+    Clone source:
+
+    ```shell
+    git clone --recursive https://github.com/Ed-Yang/xilinx-ethash.git
+    ```
+
 ## Questions
 
 * How comes running in Alveo U50 is slower than software emulation ?
+
+
+    Summary:
+
+    | Cards	DAG generation | (epoch=0) | 
+    | --- | --- | 
+    | Xilinx Alveo U50 sw_emu	| 588.30 seconds |
+    | Xilinx Alveo U50 PCIe	| 1709.76 seconds |
+    | AMD RX560	| 6.00 seconds |
+
+<br>
+
 * Does Xilinx's OpenCL support atomic_inc or alternative function ?
 
 ## Build Xilinx binary stream
@@ -88,6 +106,34 @@ This project is created for testing the Ethminer's ethash opencl kernel on Xilin
 
     Output binary stream will be copied to xclbin directory
 
+## Packages
+
+    OpenCL:
+
+    ```shell
+    sudo apt install -y ocl-icd-opencl-dev opencl-headers gdb
+    ```
+
+    CMake
+
+    ```shell
+    # upgrade openssl
+    wget wget https://www.openssl.org/source/openssl-1.1.1j.tar.gz
+    tar xvf openssl-1.1.1j.tar.gz 
+    cd openssl-1.1.1j/
+    ./config
+    make
+    make install
+
+    # upgrade CMake (need new openssl)
+    wget https://github.com/Kitware/CMake/releases/download/v3.19.5/cmake-3.19.5.tar.gz
+    tar xvf cmake-3.19.5.tar.gz
+    cd cmake-3.19.5
+    ./bootstrap
+    make
+    sudo make install
+    ```
+
 ## Build host applicatopm
 
 ### Build ethash library
@@ -97,7 +143,7 @@ Open a terminal with CMake version > 3.13.
     ```shell
     mkdir -p ./ethash/build
     cd ./ethash/build
-    cmake .. -DCMAKE_BUILD_TYPE=Debug
+    cmake ..
     make
     ```
 
@@ -204,7 +250,7 @@ Open a terminal with CMake version > 3.13.
     Run:
 
     ```shell
-    ./build/xleth 0 Xlinix ./xleth/xclbin/ethash.hw.xclbin
+    ./build/xleth 0 Xilinx ./xleth/xclbin/ethash.hw.xclbin
     ```
 
     Output:
