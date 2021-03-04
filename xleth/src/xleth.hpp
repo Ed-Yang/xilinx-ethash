@@ -21,8 +21,10 @@ using namespace std::chrono;
 // ethash
 //------------------------------------------------------------------------------
 // diff = '0x{:064x}'.format((int(2**256/DIFFICULTY)))
-//DIFFICULTY = 200000000 
+//DIFFICULTY = 100000000 
 #define DIF_100M "0x0000002af31dc4611873bf3f70834acdae9f0f4f534f5d60585a5f1c1a3ced1b"
+//DIFFICULTY = 200000000 
+#define DIF_200M "0x00000015798ee2308c39df9fb841a566d74f87a7a9a7aeb02c2d2f8e0d1e768d"
 //DIFFICULTY = 500000000 
 #define DIF_500M "0x000000089705f4136b4a59731680a88f8953030fdd7645e011abac9f387295d2"
 

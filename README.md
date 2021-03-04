@@ -34,6 +34,8 @@ This project is created for testing the Ethminer's ethash opencl kernel on Xilin
     xilinx-ethash
     ├── CMakeLists.txt
     ├── README.md
+    ├── test
+    │   └── main.cpp <-- main program
     └── xleth
         ├── config
         │   ├── connectivity_u50.ini <-- U50 HBM settings
@@ -43,7 +45,8 @@ This project is created for testing the Ethminer's ethash opencl kernel on Xilin
         │   ├── ethash-08222020.cl <-- original ethminer opencl kernel (base)
         │   └── ethash.cl <-- from ethminer with minor modification
         ├── src
-        │   ├── xleth.cpp <-- opencl application
+        │   ├── xleth.cpp <-- eth opencl library
+        │   └── xleth.hpp <-- eth opencl header
         └── xclbin
             ├── ethash.hw.xclbin <-- binary stream used for U50
             └── ethash.sw_emu.xclbin  <-- binary stream used for software emulation
@@ -59,7 +62,6 @@ This project is created for testing the Ethminer's ethash opencl kernel on Xilin
 ## Questions
 
 * How comes running in Alveo U50 is slower than software emulation ?
-
 
     Summary:
 
@@ -167,7 +169,10 @@ Open a terminal with CMake version > 3.13.
     ```
 
     Usage: 
-    ./build/xleth <epoch> <Xilinx|AMD> <kernel-file>
+
+    ```shell
+    ./build/xleth <epoch> <Xilinx|AMD> <kernel-file> [quiet]
+    ```
 
 ### Run software emulation
 
@@ -186,7 +191,11 @@ Open a terminal with CMake version > 3.13.
     /tools/Xilinx/Vitis/2020.2/bin/emconfigutil -f xilinx_u50_gen3x16_xdma_201920_3
     ```
 
+### Run on software emulation
+
     Run:
+
+    Difficulty: 1000000
 
     ```shell
     ./build/xleth 0 Xilinx ./xleth/xclbin/ethash.sw_emu.xclbin 
@@ -249,6 +258,8 @@ Open a terminal with CMake version > 3.13.
 
     Run:
 
+    Difficulty: 1000000
+
     ```shell
     ./build/xleth 0 Xilinx ./xleth/xclbin/ethash.hw.xclbin
     ```
@@ -310,6 +321,8 @@ Open a terminal with CMake version > 3.13.
 
     Run:
 
+    Difficulty: 2000000
+
     ```shell
     ./build/xleth 0 AMD ./xleth/kernel/ethash.cl
     ```
@@ -320,22 +333,26 @@ Open a terminal with CMake version > 3.13.
     -----------------------------------------------
     Loading OpenCL kernel ...
     -----------------------------------------------
-    Got platform : Xilinx
     Got platform : AMD Accelerated Parallel Processing
     Found Platform
     Platform Name: AMD Accelerated Parallel Processing
     Trying to program device Baffin
     Device program successful.
+    KNL: L_WORKSIZE 128
+    KNL: MULTIPLIER 65535
+    KNL: G_WORKSIZE 16384
+    KNL: FASTEXIT   1
     DEV: Global mem size  3 GB
-    DEV: Max alloc size   3260 MB
+    DEV: Max alloc size   3256 MB
     DEV: Max W Group size 256
+    DEV: Max W Item size  1024/1024/1024
     DEV: Max compute unit 14
     -----------------------------------------------
     Generating DAG ...
     -----------------------------------------------
     DAG: generating for epoch 0 ...
     DAG: epoch 0 lightSize 16776896 dagSize 1073739904
-    DAG: item          0 chunk 1280000, took   0.69s
+    DAG: item          0 chunk 1280000, took   0.70s
     DAG: item    1280000 chunk 1280000, took   0.40s
     DAG: item    2560000 chunk 1280000, took   0.40s
     DAG: item    3840000 chunk 1280000, took   0.40s
@@ -348,22 +365,48 @@ Open a terminal with CMake version > 3.13.
     DAG: item   12800000 chunk 1280000, took   0.40s
     DAG: item   14080000 chunk 1280000, took   0.40s
     DAG: item   15360000 chunk 1280000, took   0.40s
-    DAG: took   6.00 seconds.
+    DAG: took   5.99 seconds.
     -----------------------------------------------
     Searching ...
     -----------------------------------------------
     seed     : 0000000000 00000000 00000000 00000000 00000000 00000000 00000000 000000
     header   : 0000000000 00000000 00000000 00000000 00000000 00000000 00000000 000000
-    boundary : 0000002af3 1dc46118 73bf3f70 834acdae 9f0f4f53 4f5d6058 5a5f1c1a 3ced1b
-    Search: target 0x2af31dc461
-    Search: start nonce 0, hash count 0
-    Search: found, startNonce 0, gid 3664863, hashCount 28687 abort 1
+    boundary : 0000001579 8ee2308c 39df9fb8 41a566d7 4f87a7a9 a7aeb02c 2d2f8e0d 1e768d
+    Search: target 0x15798ee230
+    Search: start nonce            0, hash count 65535
+    Search: start nonce      8388480, hash count 65535
+    Search: start nonce     16776960, hash count 65535
+    Search: start nonce     25165440, hash count 65535
+    Search: start nonce     33553920, hash count 65535
+    Search: start nonce     41942400, hash count 65535
+    Search: start nonce     50330880, hash count 65535
+    Search: start nonce     58719360, hash count 65535
+    Search: start nonce     67107840, hash count 65535
+    Search: start nonce     75496320, hash count 65535
+    Search: start nonce     83884800, hash count 65535
+    Search: start nonce     92273280, hash count 65535
+    Search: start nonce    100661760, hash count 65535
+    Search: start nonce    109050240, hash count 65535
+    Search: start nonce    117438720, hash count 65535
+    Search: start nonce    125827200, hash count 65535
+    Search: start nonce    134215680, hash count 65535
+    Search: start nonce    142604160, hash count 65535
+    Search: start nonce    150992640, hash count 65535
+    Search: start nonce    159381120, hash count 65535
+    Search: start nonce    167769600, hash count 65535
+    Search: start nonce    176158080, hash count 65535
+    Search: start nonce    184546560, hash count 65535
+    Search: start nonce    192935040, hash count 65535
+    Search: start nonce    201323520, hash count 17742
+
+    Search: found, startNonce 201323520, gid 2264112, hashCount 17742 abort 1
     -----------------------------------------------
     Check solution ...
     -----------------------------------------------
-    Sol: nonce    : 3664863
-    Sol: mix_hash : 09f1a1567c a8f6fbbf 6e8c6793 a6474814 7e0d9998 e2e21821 2bb05bff 99360a
+    Sol: nonce    : 203587632
+    Sol: mix_hash : 0c004dd83c 00b67765 a09bddb1 ecc14561 f006778b 85bb61f5 74fa6e7d ecd29b
     Sol: valid.
+    Sol: Hash rate 10.47 Mh 
     ```
 
 ## Reference

@@ -34,7 +34,7 @@ int main(int argc, char **argv)
     {
         eth_dev = EthDevce(argv[2], argv[3], false, debug);
 
-        unsigned localWorkSize = 256;
+        unsigned localWorkSize = 128;
         unsigned globalWorkSizeMultiplier = 65535;
         bool no_exit = true;
 
@@ -57,13 +57,13 @@ int main(int argc, char **argv)
     std::cout << "-----------------------------------------------" << std::endl;
 
     auto t_start = high_resolution_clock::now();
-    
+
     rv = eth_dev.gen_dag(epoch);
 
     auto t_end = high_resolution_clock::now();
     auto duration = duration_cast<microseconds>(t_end - t_start);
     float ms = duration.count() / 1000;
-    printf("DAG: took %6.2f seconds.\n", ms/1000);
+    printf("DAG: took %6.2f seconds.\n", ms / 1000);
 
     std::cout << "-----------------------------------------------" << std::endl;
     std::cout << "Searching ..." << std::endl;
@@ -72,7 +72,7 @@ int main(int argc, char **argv)
     // ethash::hash256 seed = ethash::calculate_epoch_seed(epoch);
     ethash::hash256 seed = {};
     ethash::hash256 header = {};
-    std::string target_str = DIF_500M;
+    std::string target_str = DIF_200M;
     ethash::hash256 boundary = to_hash256(target_str.substr(2));
     hex_dump("seed     : ", seed.bytes, 32);
     hex_dump("header   : ", header.bytes, 32);
