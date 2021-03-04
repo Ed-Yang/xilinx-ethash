@@ -13,7 +13,8 @@ set(ETHASH_PATH ./ethash)
 set(XRT_PATH $ENV{XILINX_XRT})
 
 #include_directories(./common/includes/xcl2)
-include_directories(../ethminer)
+#include_directories(../ethminer)
+include_directories(./xleth/src)
 include_directories(${ETHASH_PATH})
 include_directories(${ETHASH_PATH}/include)
 include_directories(${XRT_PATH}/include)
@@ -41,7 +42,7 @@ add_custom_target(
 )
 
 # xleth
-add_executable(xleth ${SOURCE})
+add_executable(xleth ./test/main.cpp ${SOURCE})
 
 target_link_libraries(xleth libethash.a libkeccak.a)
 target_link_libraries(xleth -L${XRT_PATH}/lib -lOpenCL -lpthread)
